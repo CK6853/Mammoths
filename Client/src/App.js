@@ -30,7 +30,6 @@ function EventForm() {
     setSubmissionStatus("Pending")
     fetch("http://phoenix.zapto.org:3002/", requestOptions)
       .then(res => {
-        console.log(res.status)
         switch(res.status) {
           case 200:
             setSubmissionStatus("Complete")
