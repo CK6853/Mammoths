@@ -9,26 +9,19 @@ router.get('/', function(req, res, next) {
   res.json(DB.get("events"));
 });
 
-router.post("/", function(req, res, next) {
-  console.log(req.body)
-  res.status(200)
-  res.send()
-})
-
-router.get("/testing", async function (req, res, next) {
+router.post("/", async function(req, res, next) {
+  // VALIDATION
+  
+  // Save new event to DB
   DB = req.DB;
   let events = await DB.get("events")
-  console.log(events)
   if (events === undefined) events = []
-  let newEvent = {
-    name: "Caleb",
-    email: "test@outlook.com",
-    phone: "0412345678",
-    date: "Will check format for this later"
-  }
-  events.push(newEvent)
+  events.push(req.body)
   await DB.set("events", events)
-  res.json("ok")
+
+  // Let the client know the event was registered successfully
+  res.status(200)
+  res.send()
 })
 
 // API call to reset all data
