@@ -1,7 +1,6 @@
-Client
-    Styling
-    Commenting
+
 
 Extra things to consider: 
     Error on duplicate registration
     More specific backend errors - send something more than a status code, and display on frontend
+    Completely custom validation messages, e.g. onInput event for each field, checks if data is valid, updates validation span with a specific error string instead of just tick/cross
