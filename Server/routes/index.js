@@ -4,14 +4,40 @@ var router = express.Router();
 // At index page, just display all data on the backend
 router.get('/', function(req, res, next) {
   //res.render('index', { title: 'Express' });
-
   DB = req.DB;
   res.json(DB.get("events"));
 });
 
 router.post("/", async function(req, res, next) {
-  // VALIDATION
+  // Validation
+  // Email must match standard format (apparently this Regex is equivalent to the default HTML email input pattern)
+  let validEmail = ("email" in req.body && req.body.email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/) !== null)
+  // Name must exist
+  let validName = ("name" in req.body)
+  // Phone number must be an 8 to 10 digit number
+  let validPhone = ("phone" in req.body && req.body.phone.match(/^[0-9]{8,10}$/) !== null)
+  let validDate
+  switch (req.body.date) {
+    // If any of the valid dates, valid
+    case "2025-05-24":
+    case "2025-05-25":
+    case "2025-05-26":
+      validDate = true
+      break
+    default:
+      // Anything else, not
+      validDate = false
+  }
   
+  // If any of the fields are invalid, return "bad request"
+  if (!validEmail || !validName || !validPhone || !validDate) {
+    console.log(`${validEmail} ${validName} ${validPhone} ${validDate}`)
+    res.status(400)
+    res.send()
+    return
+  }
+  
+  // Validation passed
   // Save new event to DB
   DB = req.DB;
   let events = await DB.get("events")
