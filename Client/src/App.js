@@ -20,10 +20,14 @@ function EventForm() {
   // Set up state for date input - others can handle their own
   const [date, setDate] = useState("2025-05-24")
   // Track current state of submission for display
+  // I would normally use an enum for this, but JS doesn't support those so a specified string will do
   const [submissionStatus, setSubmissionStatus] = useState("Incomplete")
+  // Also track if the user has entered an invalid submission before
+  const [hasInvalidSubmission, setHasInvalidSubmission] = useState(false)
 
   // Function to call on submission of form
   // In normal use, will only be called if form data is valid
+  // Server has its own validation just in case
   function submit(formData) {
     const requestOptions = {
       method: "POST",
@@ -36,7 +40,7 @@ function EventForm() {
         date: formData.get("date")
       })
     }
-    // Once we're sending the submission, set status to "pending" until we get a response
+    // Once we're sending the submission, set status to "Pending" until we get a response
     setSubmissionStatus("Pending")
     fetch(serverURL, requestOptions)
       .then(res => {
@@ -45,7 +49,7 @@ function EventForm() {
           case 200:
             setSubmissionStatus("Complete")
             break;
-          // Any other response - something has gone wrong
+          // Any other response - something has gone wrong (e.g. validation failure, server outage)
           default:
             setSubmissionStatus("Error")
         }
@@ -69,12 +73,15 @@ function EventForm() {
 
   // Set a custom error message for invalid data - designed to be called by input object's onInvalid event
   // Currently only implemented for "phone" input - but easily expandable (I think the default validation errors for other types are adequate)
-  function setInvalidMessage(event) {
+  // Could also be replaced entirely by a custom validation system, but too much effort for an example
+  function onInvalidSubmission(event) {
     switch (event.target.id) {
       case "phone":
         event.target.setCustomValidity("Please enter an 8 to 10 digit number with no non-numeric characters or spaces")
         break;
-      default: return
+      default: 
+        setHasInvalidSubmission(true)
+        return
     }
   }
 
@@ -102,29 +109,31 @@ function EventForm() {
         <table><tbody><tr>
             <td><label htmlFor="email">Email</label></td>
             <td><input name="email" id="email" autoComplete="email" 
-              // Use "type" to have default input-side validation
+              // Use "type" to use default client-side validation
               type="email"
               // Show correct format as placeholder
               placeholder="someone@example.com" 
+              // If attempting to submit invalid data, update state
+              onInvalid={event=>onInvalidSubmission(event)} 
               // Set "required" to disallow submitting without entering data           
               required
             />
-            {/*Create a span after the input box to use with CSS pseudo-elements for validation*/}
-            <span className="validity"></span></td>
+            {/*Create a span after the input box to use with CSS pseudo-elements for validation - only show if the user has entered invalid data before*/}
+            {hasInvalidSubmission ? <span className="validity"></span> : ""}</td>
           </tr><tr>
             <td><label htmlFor="name">Name</label></td>
-            <td><input name="name" id="name" autoComplete="name" type="text" placeholder="John Smith" required/>
-            <span className="validity"></span></td>
+            <td><input name="name" id="name" autoComplete="name" type="text" placeholder="John Smith" onInvalid={event=>onInvalidSubmission(event)} required/>
+            {hasInvalidSubmission ? <span className="validity"></span> : ""}</td>
           </tr><tr>
             <td><label htmlFor="phone">Phone</label></td>
             <td><input name="phone" id="phone" autoComplete="phone" type="tel" placeholder="0412345678" required
               // Use Regex pattern to restrict entries to valid phone numbers (adjust if other formats are needed)
               pattern="^[0-9]{8,10}$" 
               // Use custom validity error messages (see functions above)
-              onInvalid={event=>setInvalidMessage(event)} 
+              onInvalid={event=>onInvalidSubmission(event)} 
               onInput={event=>checkValidity(event)} 
             />
-            <span className="validity"></span></td>
+            {hasInvalidSubmission ? <span className="validity"></span> : ""}</td>
           </tr><tr>
             <td><label htmlFor="date">Date</label></td>
             <td><input name="date" id="date" type="date" value={date} onChange={event => setDate(event.target.value)} min="2025-05-24" max="2025-05-26" required/></td>
