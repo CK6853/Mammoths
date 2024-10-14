@@ -21,7 +21,7 @@ function EventForm() {
   const [submissionStatus, setSubmissionStatus] = useState("Incomplete")
 
   // Function to call on submission of form
-  // In normal use will only be called if form data is valid
+  // In normal use, will only be called if form data is valid
   function submit(formData) {
     const requestOptions = {
       method: "POST",
@@ -50,7 +50,7 @@ function EventForm() {
       })
   }
 
-  // Display a status message based on status state
+  // Display a message based on status state
   function submissionMessage() {
     switch (submissionStatus) {
       case "Incomplete":
@@ -61,6 +61,34 @@ function EventForm() {
         return "Registration successful"
       case "Error":
         return "Something went wrong. Please try again."
+      default: return
+    }
+  }
+
+  // Set a custom error message for invalid data - designed to be called by input object's onInvalid event
+  // Currently only implemented for "phone" input - but easily expandable (I think the default validation errors for other types are adequate)
+  function setInvalidMessage(event) {
+    switch (event.target.id) {
+      case "phone":
+        event.target.setCustomValidity("Please enter an 8 to 10 digit number with no non-numeric characters or spaces")
+        break;
+      default: return
+    }
+  }
+
+  // Once setCustomValidity is called (above), it needs to be reset in order to allow re-submission
+  // Designed to be called by input object's onInput event
+  // However, resetting prematurely will return to the default error message rather than the custom one set above
+  // So, only reset the custom validity message once the data is valid again
+  // Currently only implemented for "phone" input - but easily expandable
+  function checkValidity(event) {
+    switch (event.target.id) {
+      case "phone":
+        if (event.target.value.match(/^[0-9]{8,10}$/) !== null) {
+          event.target.setCustomValidity("")
+        }
+        break;
+      default: return
     }
   }
 
@@ -71,15 +99,29 @@ function EventForm() {
         {/*Make a row for each input's label, input, and validation span*/}
         <table><tbody><tr>
             <td><label htmlFor="email">Email</label></td>
-            <td><input name="email" id="email" type="email" placeholder="someone@example.com" autoComplete="email" required/>
+            <td><input name="email" id="email" autoComplete="email" 
+              // Use "type" to have default input-side validation
+              type="email"
+              // Show correct format as placeholder
+              placeholder="someone@example.com" 
+              // Set "required" to disallow submitting without entering data           
+              required
+            />
+            {/*Create a span after the input box to use with CSS pseudo-elements for validation*/}
             <span className="validity"></span></td>
           </tr><tr>
             <td><label htmlFor="name">Name</label></td>
-            <td><input name="name" id="name" type="text" placeholder="John Smith" autoComplete="name" required/>
+            <td><input name="name" id="name" autoComplete="name" type="text" placeholder="John Smith" required/>
             <span className="validity"></span></td>
           </tr><tr>
             <td><label htmlFor="phone">Phone</label></td>
-            <td><input name="phone" id="phone" type="tel" placeholder="0412345678" autoComplete="phone" pattern="^[0-9]{8,10}$" required/>
+            <td><input name="phone" id="phone" autoComplete="phone" type="tel" placeholder="0412345678" required
+              // Use Regex pattern to restrict entries to valid phone numbers (adjust if other formats are needed)
+              pattern="^[0-9]{8,10}$" 
+              // Use custom validity error messages (see functions above)
+              onInvalid={event=>setInvalidMessage(event)} 
+              onInput={event=>checkValidity(event)} 
+            />
             <span className="validity"></span></td>
           </tr><tr>
             <td><label htmlFor="date">Date</label></td>
