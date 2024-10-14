@@ -9,3 +9,7 @@ Server
 
 
 Commenting
+
+Extra things to consider: 
+    Error on duplicate registration
+    More specific backend errors - send something more than a status code, and display on frontend
