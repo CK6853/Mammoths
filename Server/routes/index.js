@@ -31,7 +31,6 @@ router.post("/", async function(req, res, next) {
   
   // If any of the fields are invalid, return "bad request"
   if (!validEmail || !validName || !validPhone || !validDate) {
-    console.log(`${validEmail} ${validName} ${validPhone} ${validDate}`)
     res.status(400)
     res.send()
     return
