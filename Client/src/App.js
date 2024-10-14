@@ -1,6 +1,8 @@
 import './App.css';
 import { useState } from "react";
 
+const serverURL = "http://phoenix.zapto.org:3002/"
+
 // App body - just a heading and a custom component for the form
 function App() {
   return (
@@ -36,7 +38,7 @@ function EventForm() {
     }
     // Once we're sending the submission, set status to "pending" until we get a response
     setSubmissionStatus("Pending")
-    fetch("http://phoenix.zapto.org:3002/", requestOptions)
+    fetch(serverURL, requestOptions)
       .then(res => {
         switch(res.status) {
           // In case of an "ok" response, set status to "complete"
