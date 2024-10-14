@@ -1,5 +1,18 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1 Mammoths backend
+  p To reset data, navigate to the "/reset" path of this API
+  table 
+    thead 
+      th Email 
+      th Name 
+      th Phone 
+      th Date 
+    tbody 
+      each registration in events
+        tr 
+          td #{registration.email}
+          td #{registration.name}
+          td #{registration.phone}
+          td #{registration.date}
