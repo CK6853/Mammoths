@@ -5,7 +5,7 @@ import { useState } from "react";
 function App() {
   return (
     <div className="App">
-      <h1>Mammoths - A Deep Dive</h1>
+      <h3>Mammoths - A Deep Dive</h3>
       <EventForm />
     </div>
   );
