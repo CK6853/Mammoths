@@ -137,12 +137,9 @@ function EventForm() {
           </tr><tr>
             <td><label htmlFor="date">Date</label></td>
             <td><input name="date" id="date" type="date" value={date} onChange={event => setDate(event.target.value)} min="2025-05-24" max="2025-05-26" required/></td>
-          </tr><tr>
-            <td><button type="submit">Submit</button></td>
-            <td>
-              {submissionMessage()}
-            </td>
           </tr></tbody></table>
+          <button className="submitButton" type="submit">Submit</button>
+          <span>{submissionMessage()}</span>
       </form>
     </div>
   )

@@ -19,3 +19,7 @@ input:valid + span::after {
 table, td {
     border: none;
 }
+
+.submitButton {
+    margin-right: 15px;
+}
