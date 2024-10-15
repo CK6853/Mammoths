@@ -4,6 +4,7 @@ import { useState } from "react";
 const serverURL = "http://phoenix.zapto.org:3002/"
 
 // App body - just a heading and a custom component for the form
+// Could easily include more, e.g. event information/promotional images
 function App() {
   return (
     <div className="App">
