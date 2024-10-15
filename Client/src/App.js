@@ -89,9 +89,9 @@ function EventForm() {
   }
 
   // Once setCustomValidity is called (above), it needs to be reset in order to allow re-submission
-  // Designed to be called by input object's onInput event
   // However, resetting prematurely will return to the default error message rather than the custom one set above
   // So, only reset the custom validity message once the data is valid again
+  // Designed to be called by input object's onInput event
   // Currently only implemented for "phone" input - but easily expandable
   function checkValidity(event) {
     switch (event.target.id) {
