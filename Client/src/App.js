@@ -48,6 +48,8 @@ function EventForm() {
           // In case of an "ok" response, set status to "complete"
           case 200:
             setSubmissionStatus("Complete")
+            // Also reset validation
+            setHasInvalidSubmission(false)
             break;
           // Any other response - something has gone wrong (e.g. validation failure, server outage)
           default:
