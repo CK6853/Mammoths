@@ -16,4 +16,5 @@ I wasn't entirely satisfied with the default validation error messages, especial
 
 The client also contains a field to inform the user of the status of their submission. Once a valid request is sent, it will show a "pending" message, and then will switch to a "success" or "error" message depending on server response (or lack thereof). The error message is generic ("Something went wrong"), but could easily be improved to be more specific (e.g. timeout, validation error). I also considered having the server send a specific error for duplicate submissions ("You're already registered") but this would be fairly trivial yet time-consuming, so I chose not to. 
 
-The only specification for styling was "Simple, clean and professional" so I used SimpleCSS and called it a day. 
+The only specification for styling was "Simple, clean and professional" and "responsive on different screen sizes" so I used SimpleCSS and called it a day. 
+
