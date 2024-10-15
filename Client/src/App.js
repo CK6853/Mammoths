@@ -91,7 +91,7 @@ function EventForm() {
   // Once setCustomValidity is called (above), it needs to be reset in order to allow re-submission
   // However, resetting prematurely will return to the default error message rather than the custom one set above
   // So, only reset the custom validity message once the data is valid again
-  // Designed to be called by input object's onInput event
+  // Designed to be called by an input object's onInput event
   // Currently only implemented for "phone" input - but easily expandable
   function checkValidity(event) {
     switch (event.target.id) {
@@ -145,7 +145,7 @@ function EventForm() {
             <td><label htmlFor="date">Date</label></td>
             <td><input name="date" id="date" type="date" value={date} onChange={event => setDate(event.target.value)} min="2025-05-24" max="2025-05-26" required/></td>
           </tr></tbody></table>
-          
+
           <button className="submitButton" type="submit">Submit</button>
           {/*Display the status of an existing submission*/}
           <span>{submissionMessage()}</span>
