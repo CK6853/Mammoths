@@ -1,10 +1,10 @@
 Small test project for a potential job opportunity
 
 The brief was to create a mock event registration form, collecting and validating the following information from a user: 
-    - Email
-    - Name
-    - Phone number
-    - Date of the event they're registering for (from 24th-26th of May)
+- Email
+- Name
+- Phone number
+- Date of the event they're registering for (from 24th-26th of May)
 
 The project should implement both frontend and backend - I chose a React/Express stack since I'm most experienced with those technologies. 
 
