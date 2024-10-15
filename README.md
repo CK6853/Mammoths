@@ -1,5 +1,6 @@
 Small test project for a potential job opportunity
 
+### Brief
 The brief was to create a mock event registration form, collecting and validating the following information from a user: 
 - Email
 - Name
@@ -8,6 +9,7 @@ The brief was to create a mock event registration form, collecting and validatin
 
 The project should implement both frontend and backend - I chose a React/Express stack since I'm most experienced with those technologies. 
 
+### Solution
 My general approach was to create all needed functionality without reinventing the wheel. HTML forms and inputs already allow for client-side data entry and validation for these data types (and are standardised and supported by all major browsers, including their accessibility and autofill features), so that was my starting point. Client-side validation stops the user from submitting an invalid form in normal use, but to protect from edge cases or if an http request was sent without using the form, the backend is also equipped with data validation. 
 
 The backend is minimal - when receiving a POST request, validate the data and either reject and send a 400 response, or save to the database and send a 200 response. A GET request to the home route will display all the data, while sending a request to the /reset route will clear all data. Obviously these last two routes would not be implemented this way in a real environment, but they exist for testing purposes. The database itself is handled by Enmap, which allows an SQLite3 database to be abstracted into javascript objects for simplicity (and also hedges against SQL injections). There are only very basic security protections (using Helmet), as this was not part of the brief. 
@@ -18,6 +20,7 @@ The client also contains a field to inform the user of the status of their submi
 
 The only specification for styling was "Simple, clean and professional" and "responsive on different screen sizes" so I used SimpleCSS and called it a day. 
 
+### Screenshots
 The client form
 
 ![Client](docs/screenshots/Client.png)
