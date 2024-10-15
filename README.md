@@ -18,3 +18,23 @@ The client also contains a field to inform the user of the status of their submi
 
 The only specification for styling was "Simple, clean and professional" and "responsive on different screen sizes" so I used SimpleCSS and called it a day. 
 
+The client form
+![Client](docs/screenshots/Client.png)
+
+Email validation failure
+![Email Validation](docs/screenshots/Validation_Email.png)
+
+Phone validation failure (custom message)
+![Phone Validation](docs/screenshots/Validation_Phone.png)
+
+Pending submission
+![Pending Submission](docs/screenshots/Pending.png)
+
+Error (timeout)
+![Submission Error](docs/screenshots/Error.png)
+
+Success
+![Submission Success](docs/screenshots/Success.png)
+
+Backend display
+![Backend](docs/screenshots/Backend.png)
