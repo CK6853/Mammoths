@@ -53,7 +53,7 @@ function EventForm() {
           default:
             setSubmissionStatus("Error")
         }
-      })
+      }).catch(() => setSubmissionStatus("Error"))
   }
 
   // Display a message based on status state
@@ -62,7 +62,7 @@ function EventForm() {
       case "Incomplete":
         return;
       case "Pending":
-        return "Sending registration request to server..."
+        return "Sending registration request to the server..."
       case "Complete":
         return "Registration successful"
       case "Error":
