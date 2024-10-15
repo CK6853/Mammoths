@@ -83,9 +83,9 @@ function EventForm() {
         event.target.setCustomValidity("Please enter an 8 to 10 digit number with no non-numeric characters or spaces")
         break;
       default: 
-        setHasInvalidSubmission(true)
-        return
     }
+    // No matter which input has triggered invalid, update the submission state so that validation spans will display
+    setHasInvalidSubmission(true)
   }
 
   // Once setCustomValidity is called (above), it needs to be reset in order to allow re-submission
@@ -110,23 +110,26 @@ function EventForm() {
         {/*Use a table to align everything nicely*/}
         {/*Make a row for each input's label, input, and validation span*/}
         <table><tbody><tr>
+
             <td><label htmlFor="email">Email</label></td>
             <td><input name="email" id="email" autoComplete="email" 
-              // Use "type" to use default client-side validation
+              // Use "type" for default client-side validation
               type="email"
               // Show correct format as placeholder
               placeholder="someone@example.com" 
-              // If attempting to submit invalid data, update state
-              onInvalid={event=>onInvalidSubmission(event)} 
+              // If attempting to submit invalid data, update state for validation span display
+              onInvalid={()=>setHasInvalidSubmission(true)} 
               // Set "required" to disallow submitting without entering data           
               required
             />
-            {/*Create a span after the input box to use with CSS pseudo-elements for validation - only show if the user has entered invalid data before*/}
+            {/*Create a span after the input box to use with CSS pseudo-elements for validation - only display if the user has entered invalid data and tried to submit*/}
             {hasInvalidSubmission ? <span className="validity"></span> : ""}</td>
+
           </tr><tr>
             <td><label htmlFor="name">Name</label></td>
-            <td><input name="name" id="name" autoComplete="name" type="text" placeholder="John Smith" onInvalid={event=>onInvalidSubmission(event)} required/>
+            <td><input name="name" id="name" autoComplete="name" type="text" placeholder="John Smith" onInvalid={()=>setHasInvalidSubmission(true)} required/>
             {hasInvalidSubmission ? <span className="validity"></span> : ""}</td>
+
           </tr><tr>
             <td><label htmlFor="phone">Phone</label></td>
             <td><input name="phone" id="phone" autoComplete="phone" type="tel" placeholder="0412345678" required
@@ -137,11 +140,13 @@ function EventForm() {
               onInput={event=>checkValidity(event)} 
             />
             {hasInvalidSubmission ? <span className="validity"></span> : ""}</td>
+
           </tr><tr>
             <td><label htmlFor="date">Date</label></td>
             <td><input name="date" id="date" type="date" value={date} onChange={event => setDate(event.target.value)} min="2025-05-24" max="2025-05-26" required/></td>
           </tr></tbody></table>
           <button className="submitButton" type="submit">Submit</button>
+          {/*Display the status of an existing submission*/}
           <span>{submissionMessage()}</span>
       </form>
     </div>
